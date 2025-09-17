@@ -1,0 +1,134 @@
+/* Search form styling */
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  box-sizing: border-box;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  list-style-type: none;
+  text-decoration: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #242424;
+}
+
+.container {
+  padding: 50px 0;
+  width: 100%;
+}
+
+.row {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+nav {
+  height: 62px;
+  width: 100%;
+  background: linear-gradient(
+    to top,
+    rgb(55, 46, 82) 0%,
+    #07001b 75%,
+    #03001b 100%
+  );
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+#search-form {
+  margin: 16px 0;
+  display: flex;
+  gap: 8px;
+}
+
+#search-input {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+}
+
+#search-form button {
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.logo {
+  color: white;
+  font-size: 44px;
+  font-weight: 900;
+  text-decoration: underline;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 0 8px rgb(255, 0, 34);
+}
+
+.glowy-line {
+  height: 0px;
+  width: 100%;
+  background-color: #ff0037;
+  box-shadow: 0 0px 10px 2px #ff0037;
+  z-index: 0;
+}
+
+.search-results {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.movie {
+  width: 220px;
+  height: 380px;
+  padding: 10px 0;
+  margin: 0 16px 32px 16px;
+  background-color: rgb(10, 5, 25);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 0 10px 5px rgb(75, 0, 16);
+}
+
+.movie-poster {
+  width: 200px;
+  height: 300px;
+  object-fit: contain;
+  display: block;
+}
+
+.movie-details {
+  width: 100%;
+  text-align: center;
+}
+
+.movie-title {
+  font-size: 14px;
+  color: rgb(235, 235, 235);
+}
+
+.year {
+  font-size: 12px;
+  color: rgb(235, 235, 235);
+}
+
+.imdb {
+  font-size: 14px;
+  color: rgb(235, 235, 235);
+
+}
