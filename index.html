@@ -14,10 +14,10 @@
   <body>
     <nav>
       <a href="#" class="logo">GMDB</a>
-      <form id="search-form">
+      <form class="search-form">
         <input
           type="text"
-          id="search-input"
+          class="search-input"
           placeholder="Search movies..."
         />
         <button type="submit">
@@ -27,23 +27,31 @@
     </nav>
     <div class="glowy-line"></div>
     <div class="container">
-      <div class="row">
-        <div class="search-results">
-          <!-- <div class="movie">
-            <img class="movie-poster" src="${movie.Poster}" />
-            <div class="movie-details">
-              <div class="movie-title"><b>${movie.Title}</b></div>
-              <div class="year">${movie.Year}</div>
-              <a
-                href="https://www.imdb.com/title/${movie.imdbID}/"
-                target="_blank"
-                >IMDB Link</a
-              >
-            </div>
-          </div>
-          `; -->
-        </div>
+      <div class="row search-row">
+        <div class="search-results"></div>
+      </div>
+      <div class="spinner-container loading">
+        <i class="fa-solid fa-spinner loading__spinner"></i>
+      </div>
+      <div class="pagination">
+        <button class="page-btn prev-page">←</button>
+        <select class="page-num"></select>
+        <button class="page-btn next-page">→</button>
       </div>
     </div>
+    <footer>
+      <div class="footer__top">
+        <a href="#" class="logo">GMDB</a>
+        <div class="links">
+          <i class="fa-brands fa-x-twitter"></i>
+          <i class="fa-brands fa-instagram"></i>
+          <i class="fa-brands fa-tiktok"></i>
+          <i class="fa-brands fa-facebook"></i>
+
+
+        </div>
+      </div>
+      <h1 class="copyright">© 9000 Not Really</h1>
+    </footer>
   </body>
 </html>
