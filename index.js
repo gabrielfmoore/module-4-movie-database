@@ -1,6 +1,5 @@
 //https://www.omdbapi.com/?i=tt3896198&apikey=4882512
 
-
 let userPageNumber = 1;
 let userSearchTerm = '';
 const containerHeight = document.querySelector('.container');
@@ -38,8 +37,20 @@ async function searchMovies(searchTerm, pageNumber = 1) {
     const moviesToShow = allResults.slice(start, start + 6);
     if (moviesToShow.length > 0) {
       resultsContainer.innerHTML = moviesToShow.map(movie => searchResultHTML(movie)).join('');
+      // Trigger fade-in animation for each .movie after DOM update
+      const movieEls = resultsContainer.querySelectorAll('.movie');
+      movieEls.forEach(el => {
+        el.classList.remove('fade-in'); // reset if needed
+        // Force reflow to restart animation
+        void el.offsetWidth;
+        el.classList.add('fade-in');
+    paginationShow.style.display = 'block';
+    paginationShow.style.animation = 'fade-in 2s ease';
+      });
     } else {
       resultsContainer.innerHTML = '<div>No results found.</div>';
+    paginationShow.style.display = 'none';
+
     }
     // Calculate total custom pages and populate dropdown. 
     let totalResults = 0;
@@ -62,10 +73,7 @@ async function searchMovies(searchTerm, pageNumber = 1) {
   } finally {
     // Hide spinner
     if (loadingSpinner) loadingSpinner.style.display = 'none';
-  resultsContainer.style.display = 'flex' 
-
-  paginationShow.style.display = 'block'
-
+    resultsContainer.style.display = 'flex';
   }
 }
 
@@ -84,9 +92,6 @@ function searchResultHTML(movie) {
     `;
 }
 
-
-// Add event listener for the search form
-
 const searchFormElement = document.querySelector('.search-form');
 const searchInputElement = document.querySelector('.search-input');
 if (searchFormElement && searchInputElement) {
@@ -98,7 +103,6 @@ if (searchFormElement && searchInputElement) {
     }
   });
 }
-
 
 if (prevButton) {
   prevButton.addEventListener('click', function() {
@@ -119,6 +123,3 @@ if (pageSelectDropdown) {
     searchMovies(userSearchTerm, Number(pageSelectDropdown.value));
   });
 }
-
-// Optionally, run a default search on page load
-// searchMovies('dark', 1);
