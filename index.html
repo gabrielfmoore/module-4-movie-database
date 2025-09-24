@@ -13,28 +13,36 @@
   </head>
   <body>
     <nav>
-      <div class="nav-el">
-        <a href="index.html" class="logo">GMDB</a>
-        <form class="search-form">
-          <input
+        <div class="nav-el">
+          <a href="index.html" class="logo">GMDB</a>
+          <form class="search-form">
+            <input
             type="text"
             class="search-input"
             placeholder="Search movies..."
-          />
-          <button type="submit">
-            Search
-          </button>
-        </form>
-      </div>
+            />
+            <button type="submit">
+              Search
+            </button>
+          </form>
+        </div>
     </nav>
     <div class="glowy-line"></div>
-    <select id="sort-dropdown" style="margin-left: 32px; height: 32px; font-size: 16px;">
-      <option value="default">Sort by...</option>
-      <option value="imdb">IMDb Rating (High to Low)</option>
-      <option value="rt">Rotten Tomatoes (High to Low)</option>
-      <option value="mc">Metacritic (High to Low)</option>
-    </select>
+    <div class="side-bars">
+      <div class="left-bar"></div>
+      <div class="right-bar"></div>
+    </div>
+    <div class="sort-dropdown__wrapper">
+      <select class="sort-dropdown">
+        <option value="default">Sort by...</option>
+        <option value="imdb">IMDb Rating (High to Low)</option>
+        <option value="rt">Rotten Tomatoes (High to Low)</option>
+        <option value="mc">Metacritic (High to Low)</option>
+      </select>
+    </div>
     <div class="container">
+      <div class="welcome-message">Search for your<br> favorite movies!</div>
+      <div class="bouncing-arrow">↑</div>
       <div class="row search-row">
         <div class="search-results"></div>
       </div>

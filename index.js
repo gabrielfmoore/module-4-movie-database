@@ -1,30 +1,22 @@
-// Helper functions for ratings
-function getRTRating(movie) {
-  const rt = movie.Ratings?.find(r => r.Source === "Rotten Tomatoes");
-  if (!rt || !rt.Value) return 0;
-  const match = rt.Value.match(/(\d+)%/);
-  return match ? parseInt(match[1], 10) : 0;
-}
-function getMCRating(movie) {
-  const mc = movie.Ratings?.find(r => r.Source === "Metacritic");
-  if (!mc || !mc.Value) return 0;
-  const match = mc.Value.match(/(\d+)/);
-  return match ? parseInt(match[1], 10) : 0;
-}
-function getSortValue(movie, sortType) {
-  if (sortType === 'imdb') return parseFloat(movie.imdbRating) || 0;
-  if (sortType === 'rt') return getRTRating(movie);
-  if (sortType === 'mc') return getMCRating(movie);
-  return 0;
-}
+//https://www.omdbapi.com/?i=tt3896198&apikey=4882512
 
 // Store last full results for sorting/pagination
 let lastFullResults = [];
 let lastSearchTerm = '';
 let lastTotalResults = 0;
 
+document.addEventListener('DOMContentLoaded', function() {
+  const sortDropdown = document.querySelector('.sort-dropdown');
+  if (sortDropdown) {
+    sortDropdown.addEventListener('change', function() {
+      renderSortedPage(1);
+      userPageNumber = 1;
+    });
+  }
+});
+
 function renderSortedPage(pageNumber = 1) {
-  const sortDropdown = document.getElementById('sort-dropdown');
+  const sortDropdown = document.querySelector('.sort-dropdown');
   const sortType = sortDropdown ? sortDropdown.value : 'default';
   let sorted = [...lastFullResults];
   if (sortType !== 'default') {
@@ -44,9 +36,11 @@ function renderSortedPage(pageNumber = 1) {
       el.classList.add('fade-in');
     });
     paginationShow.style.display = 'block';
+    sortViewer.style.display = 'block'
   } else {
     resultsContainer.innerHTML = '<div>No results found.</div>';
     paginationShow.style.display = 'none';
+    sortViewer.style.display = 'none';
   }
   // Update pagination dropdown
   const totalCustomPages = Math.ceil(lastTotalResults / perPage);
@@ -64,7 +58,6 @@ function renderSortedPage(pageNumber = 1) {
   if (nextButton) nextButton.disabled = pageNumber >= totalCustomPages;
 }
 
-//https://www.omdbapi.com/?i=tt3896198&apikey=4882512
 
 let userPageNumber = 1;
 let userSearchTerm = '';
@@ -75,10 +68,18 @@ const pageSelectDropdown = document.querySelector('.page-num');
 const prevButton = document.querySelector('.prev-page');
 const nextButton = document.querySelector('.next-page');
 const loadingSpinner = document.querySelector('.spinner-container');
+const sortViewer = document.querySelector('.sort-dropdown');
+const welcomeMessage = document.querySelector('.welcome-message')
+const bouncingArrow = document.querySelector('.bouncing-arrow')
+
 
 async function searchMovies(searchTerm, pageNumber = 1) {
   resultsContainer.style.display = 'none';
   paginationShow.style.display = 'none';
+  sortViewer.style.display = 'none';
+  bouncingArrow.style.display = 'none'
+  welcomeMessage.style.display = 'none'
+
   userSearchTerm = searchTerm;
   userPageNumber = pageNumber;
   if (loadingSpinner) loadingSpinner.style.display = 'block';
@@ -160,12 +161,23 @@ if (pageSelectDropdown) {
 }
 
 // Sort dropdown event
-document.addEventListener('DOMContentLoaded', function() {
-  const sortDropdown = document.getElementById('sort-dropdown');
-  if (sortDropdown) {
-    sortDropdown.addEventListener('change', function() {
-      renderSortedPage(1);
-      userPageNumber = 1;
-    });
-  }
-});
+function getRTRating(movie) {
+  const rt = movie.Ratings?.find(r => r.Source === "Rotten Tomatoes");
+  if (!rt || !rt.Value) return 0;
+  const match = rt.Value.match(/(\d+)%/);
+  return match ? parseInt(match[1], 10) : 0;
+}
+function getMCRating(movie) {
+  const mc = movie.Ratings?.find(r => r.Source === "Metacritic");
+  if (!mc || !mc.Value) return 0;
+  const match = mc.Value.match(/(\d+)/);
+  return match ? parseInt(match[1], 10) : 0;
+}
+function getSortValue(movie, sortType) {
+  if (sortType === 'imdb') return parseFloat(movie.imdbRating) || 0;
+  if (sortType === 'rt') return getRTRating(movie);
+  if (sortType === 'mc') return getMCRating(movie);
+  return 0;
+}
+
+
