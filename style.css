@@ -383,7 +383,7 @@ nav {
 }
 
 .bouncing-arrow {
-  top: 68px;
+  top: 60px;
   font-size: 44px;
   /* margin-top: 4px; */
   right: calc(5vw + 172px);
@@ -603,6 +603,7 @@ footer .logo {
 @media (max-width: 480px) {
   .bouncing-arrow {
     right: 40vw;
+    top: 56px;
     font-size: 36px;
   }
   .welcome-message {
