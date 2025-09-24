@@ -1,3 +1,69 @@
+// Helper functions for ratings
+function getRTRating(movie) {
+  const rt = movie.Ratings?.find(r => r.Source === "Rotten Tomatoes");
+  if (!rt || !rt.Value) return 0;
+  const match = rt.Value.match(/(\d+)%/);
+  return match ? parseInt(match[1], 10) : 0;
+}
+function getMCRating(movie) {
+  const mc = movie.Ratings?.find(r => r.Source === "Metacritic");
+  if (!mc || !mc.Value) return 0;
+  const match = mc.Value.match(/(\d+)/);
+  return match ? parseInt(match[1], 10) : 0;
+}
+function getSortValue(movie, sortType) {
+  if (sortType === 'imdb') return parseFloat(movie.imdbRating) || 0;
+  if (sortType === 'rt') return getRTRating(movie);
+  if (sortType === 'mc') return getMCRating(movie);
+  return 0;
+}
+
+// Store last full results for sorting/pagination
+let lastFullResults = [];
+let lastSearchTerm = '';
+let lastTotalResults = 0;
+
+function renderSortedPage(pageNumber = 1) {
+  const sortDropdown = document.getElementById('sort-dropdown');
+  const sortType = sortDropdown ? sortDropdown.value : 'default';
+  let sorted = [...lastFullResults];
+  if (sortType !== 'default') {
+    sorted.sort((a, b) => getSortValue(b, sortType) - getSortValue(a, sortType));
+  }
+  // Paginate
+  const perPage = 6;
+  const start = (pageNumber - 1) * perPage;
+  const moviesToShow = sorted.slice(start, start + perPage);
+  if (moviesToShow.length > 0) {
+    resultsContainer.innerHTML = moviesToShow.map(movie => searchResultHTML(movie)).join('');
+    // Fade-in animation
+    const movieEls = resultsContainer.querySelectorAll('.movie');
+    movieEls.forEach(el => {
+      el.classList.remove('fade-in');
+      void el.offsetWidth;
+      el.classList.add('fade-in');
+    });
+    paginationShow.style.display = 'block';
+  } else {
+    resultsContainer.innerHTML = '<div>No results found.</div>';
+    paginationShow.style.display = 'none';
+  }
+  // Update pagination dropdown
+  const totalCustomPages = Math.ceil(lastTotalResults / perPage);
+  if (pageSelectDropdown) {
+    pageSelectDropdown.innerHTML = '';
+    for (let i = 1; i <= totalCustomPages; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = i;
+      if (i === pageNumber) option.selected = true;
+      pageSelectDropdown.appendChild(option);
+    }
+  }
+  if (prevButton) prevButton.disabled = pageNumber <= 1;
+  if (nextButton) nextButton.disabled = pageNumber >= totalCustomPages;
+}
+
 //https://www.omdbapi.com/?i=tt3896198&apikey=4882512
 
 let userPageNumber = 1;
@@ -11,67 +77,33 @@ const nextButton = document.querySelector('.next-page');
 const loadingSpinner = document.querySelector('.spinner-container');
 
 async function searchMovies(searchTerm, pageNumber = 1) {
-  resultsContainer.style.display = 'none' 
-  paginationShow.style.display = 'none'
+  resultsContainer.style.display = 'none';
+  paginationShow.style.display = 'none';
   userSearchTerm = searchTerm;
   userPageNumber = pageNumber;
-  // Show spinner
   if (loadingSpinner) loadingSpinner.style.display = 'block';
   try {
-    // Calculate which OMDb API pages to fetch. Hard mode math!
-    const startIndex = (pageNumber - 1) * 6;
-    const apiPage1 = Math.floor(startIndex / 10) + 1;
-    const apiPage2 = Math.floor((startIndex + 5) / 10) + 1;
-    // Fetch both pages if needed
-    const apiPage1Promise = fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=4882512&page=${apiPage1}`).then(r => r.json());
-    let apiPage2Promise = null;
-    if (apiPage2 !== apiPage1) {
-      apiPage2Promise = fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=4882512&page=${apiPage2}`).then(r => r.json());
-    }
-    const [result1, result2] = await Promise.all([apiPage1Promise, apiPage2Promise]);
+    // Fetch up to 50 results (5 pages)
     let allResults = [];
-    if (result1 && result1.Search) allResults = allResults.concat(result1.Search);
-    if (result2 && result2.Search) allResults = allResults.concat(result2.Search);
-    // Slice the correct 6 results.
-    const start = startIndex % 10;
-    const moviesToShow = allResults.slice(start, start + 6);
-    if (moviesToShow.length > 0) {
-      resultsContainer.innerHTML = moviesToShow.map(movie => searchResultHTML(movie)).join('');
-      // Trigger fade-in animation for each .movie after DOM update
-      const movieEls = resultsContainer.querySelectorAll('.movie');
-      movieEls.forEach(el => {
-        el.classList.remove('fade-in'); // reset if needed
-        // Force reflow to restart animation
-        void el.offsetWidth;
-        el.classList.add('fade-in');
-    paginationShow.style.display = 'block';
-    paginationShow.style.animation = 'fade-in 2s ease';
-      });
-    } else {
-      resultsContainer.innerHTML = '<div>No results found.</div>';
-    paginationShow.style.display = 'none';
-
-    }
-    // Calculate total custom pages and populate dropdown. 
     let totalResults = 0;
-    if (result1 && result1.totalResults) {
-      totalResults = Math.min(Number(result1.totalResults), 1000);
+    for (let page = 1; page <= 5; page++) {
+      const res = await fetch(`https://www.omdbapi.com/?s=${searchTerm}&apikey=4882512&page=${page}`).then(r => r.json());
+      if (res && res.Search) allResults = allResults.concat(res.Search);
+      if (res && res.totalResults) totalResults = Math.min(Number(res.totalResults), 50);
+      if (!res.Search || allResults.length >= 50) break;
     }
-    const totalCustomPages = Math.ceil(totalResults / 6);
-    if (pageSelectDropdown) {
-      pageSelectDropdown.innerHTML = '';
-      for (let i = 1; i <= totalCustomPages; i++) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        if (i === pageNumber) option.selected = true;
-        pageSelectDropdown.appendChild(option);
-      }
-    }
-    if (prevButton) prevButton.disabled = pageNumber <= 1;
-    if (nextButton) nextButton.disabled = pageNumber >= totalCustomPages;
+    // Fetch full details for each movie (to get ratings)
+    const detailedResults = await Promise.all(
+      allResults.map(async (movie) => {
+        const res = await fetch(`https://www.omdbapi.com/?i=${movie.imdbID}&apikey=4882512`).then(r => r.json());
+        return res;
+      })
+    );
+    lastFullResults = detailedResults;
+    lastSearchTerm = searchTerm;
+    lastTotalResults = detailedResults.length;
+    renderSortedPage(pageNumber);
   } finally {
-    // Hide spinner
     if (loadingSpinner) loadingSpinner.style.display = 'none';
     resultsContainer.style.display = 'flex';
   }
@@ -107,19 +139,33 @@ if (searchFormElement && searchInputElement) {
 if (prevButton) {
   prevButton.addEventListener('click', function() {
     if (userPageNumber > 1) {
-      searchMovies(userSearchTerm, userPageNumber - 1);
+      renderSortedPage(userPageNumber - 1);
+      userPageNumber--;
     }
   });
 }
 
 if (nextButton) {
   nextButton.addEventListener('click', function() {
-    searchMovies(userSearchTerm, userPageNumber + 1);
+    renderSortedPage(userPageNumber + 1);
+    userPageNumber++;
   });
 }
 
 if (pageSelectDropdown) {
   pageSelectDropdown.addEventListener('change', function() {
-    searchMovies(userSearchTerm, Number(pageSelectDropdown.value));
+    renderSortedPage(Number(pageSelectDropdown.value));
+    userPageNumber = Number(pageSelectDropdown.value);
   });
 }
+
+// Sort dropdown event
+document.addEventListener('DOMContentLoaded', function() {
+  const sortDropdown = document.getElementById('sort-dropdown');
+  if (sortDropdown) {
+    sortDropdown.addEventListener('change', function() {
+      renderSortedPage(1);
+      userPageNumber = 1;
+    });
+  }
+});
