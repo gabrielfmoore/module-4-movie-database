@@ -430,6 +430,17 @@ nav {
   gap: 32px;
 }
 
+.no-results {
+  text-align: center;
+  margin: 0 auto;
+  padding: 24px;
+  font-size: 48px;
+  font-weight: 800;
+  color: white;
+  z-index: 2;
+  text-shadow: 0px 0px 4px rgb(223, 86, 0);
+}
+
 .movie {
   width: calc(16% - 27px);
   min-height: 280px;

@@ -38,7 +38,7 @@ function renderSortedPage(pageNumber = 1) {
     paginationShow.style.display = 'block';
     sortViewer.style.display = 'block'
   } else {
-    resultsContainer.innerHTML = '<div>No results found.</div>';
+    resultsContainer.innerHTML = '<div class="no-results">No results found. 😢</div>';
     paginationShow.style.display = 'none';
     sortViewer.style.display = 'none';
   }
