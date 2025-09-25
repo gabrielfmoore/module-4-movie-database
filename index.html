@@ -21,10 +21,11 @@
             class="search-input"
             placeholder="Search movies..."
             />
-            <button type="submit">
+            <button type="submit" class="click">
               Search
             </button>
           </form>
+          <div class="bouncing-arrow">↑</div>
         </div>
     </nav>
     <div class="glowy-line"></div>
@@ -42,7 +43,6 @@
     </div>
     <div class="container">
       <div class="welcome-message">Search for your<br> favorite movies!</div>
-      <div class="bouncing-arrow">↑</div>
       <div class="row search-row">
         <div class="search-results"></div>
       </div>
@@ -58,13 +58,18 @@
     <footer>
         <a href="index.html" class="logo">GMDB</a>
         <div class="links">
-          <a href="">
+          <a href="" class="link__wrapper">
             <i class="fa-brands fa-x-twitter link"></i>
-
           </a>
-          <i class="fa-brands fa-instagram link"></i>
-          <i class="fa-brands fa-tiktok link"></i>
-          <i class="fa-brands fa-facebook link"></i>
+          <a href="" class="link__wrapper">
+            <i class="fa-brands fa-instagram link"></i>
+          </a>
+          <a href="" class="link__wrapper">
+            <i class="fa-brands fa-tiktok link"></i>
+          </a>
+          <a href="" class="link__wrapper">
+            <i class="fa-brands fa-facebook link"></i>
+          </a>
       </div>
       <h1 class="copyright">© 9000 Not Really</h1>
     </footer>
