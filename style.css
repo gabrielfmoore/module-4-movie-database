@@ -453,30 +453,30 @@ nav {
 
 @keyframes borderColorLoop {
   0% {
-    box-shadow: 0 -4px 0px 0 white, /* Top */ 4px 0 0px 0 rgb(255, 229, 184),
-      /* Right */ 0 4px 0px 0 rgb(255, 202, 110),
-      /* Bottom */ -4px 0 0px 0 rgb(255, 229, 184); /* Left */
+    box-shadow: 0 -2px 0px 0 white, /* Top */ 2px 0 0px 0 rgb(255, 229, 185),
+      /* Right */ 0 2px 0px 0 rgb(255, 202, 110),
+      /* Bottom */ -2px 0 0px 0 rgb(255, 229, 185); /* Left */
   }
   25% {
-    box-shadow: 0 -4px 0px 0 rgb(255, 229, 184), /* Top */ 4px 0 0px 0 white,
-      /* Right */ 0 4px 0px 0 rgb(255, 229, 184),
-      /* Bottom */ -4px 0 0px 0 rgb(255, 202, 110); /* Left */
+    box-shadow: 0 -2px 0px 0 rgb(255, 229, 185), /* Top */ 2px 0 0px 0 white,
+      /* Right */ 0 2px 0px 0 rgb(255, 229, 185),
+      /* Bottom */ -2px 0 0px 0 rgb(255, 202, 110); /* Left */
   }
   50% {
-    box-shadow: 0 -4px 0px 0 rgb(255, 202, 110),
-      /* Top */ 4px 0 0px 0 rgb(255, 229, 184), /* Right */ 0 4px 0px 0 white,
-      /* Bottom */ -4px 0 0px 0 rgb(255, 229, 184); /* Left */
+    box-shadow: 0 -2px 0px 0 rgb(255, 202, 110),
+      /* Top */ 2px 0 0px 0 rgb(255, 229, 185), /* Right */ 0 2px 0px 0 white,
+      /* Bottom */ -2px 0 0px 0 rgb(255, 229, 185); /* Left */
   }
   75% {
-    box-shadow: 0 -4px 0px 0 rgb(255, 229, 184),
-      /* Top */ 4px 0 0px 0 rgb(255, 202, 110),
-      /* Right */ 0 4px 0px 0 rgb(255, 229, 184),
-      /* Bottom */ -4px 0 0px 0 white; /* Left */
+    box-shadow: 0 -2px 0px 0 rgb(255, 229, 185),
+      /* Top */ 2px 0 0px 0 rgb(255, 202, 110),
+      /* Right */ 0 2px 0px 0 rgb(255, 229, 185),
+      /* Bottom */ -2px 0 0px 0 white; /* Left */
   }
   100% {
-    box-shadow: 0 -4px 0px 0 white, /* Top */ 4px 0 0px 0 rgb(255, 229, 184),
-      /* Right */ 0 4px 0px 0 rgb(255, 202, 110),
-      /* Bottom */ -4px 0 0px 0 rgb(255, 229, 184); /* Left */
+    box-shadow: 0 -2px 0px 0 white, /* Top */ 2px 0 0px 0 rgb(255, 229, 185),
+      /* Right */ 0 2px 0px 0 rgb(255, 202, 110),
+      /* Bottom */ -2px 0 0px 0 rgb(255, 229, 185); /* Left */
   }
 }
 
