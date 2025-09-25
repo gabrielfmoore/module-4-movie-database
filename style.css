@@ -447,7 +447,7 @@ nav {
 }
 
 .movie.fade-in {
-  animation: fade-in 1.5s ease;
+  animation: borderColorLoop 2s linear infinite, fade-in 1.5s ease;
   opacity: 1;
 }
 
