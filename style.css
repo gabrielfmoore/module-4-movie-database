@@ -306,12 +306,12 @@ nav {
 
 .glowy-line {
   height: 1px;
-  width: calc(100vw + 56px);
+  width: 100%;
   background-color: rgb(173, 121, 0);
   box-shadow: 0 0px 10px 4px rgb(223, 145, 0);
   position: absolute;
   z-index: 2;
-  left: -28px;
+  /* left: -28px; */
 }
 
 .sort-dropdown__wrapper {
